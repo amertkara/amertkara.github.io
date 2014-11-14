@@ -1,7 +1,7 @@
 ---
 layout: post
 title: Installing Jenkins on OSX Server
-
+tags: dev-environment, testing
 ---
 [Jenkins](http://jenkins-ci.org "Jenkins Official Website") is a CI (Continuous Integration) server which comes with a big repository of plugins. If you don't know what Continuous Integration is, in a nutshell it is a concept of integrating work of all developers to have the integrated stream of a code base. It is useful to run certain test suites (sometimes heavy ones) continuously to ensure the health of your code base.
 

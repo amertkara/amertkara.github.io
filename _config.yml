@@ -8,12 +8,12 @@ permalink:        /:year/:month/:day/:title.html
 # Setup
 title:            Mert Kara
 tagline:          'worst-case scenarist'
-description:      'A software engineer with MacGyver like skills'
+description:      'A software developer with MacGyver like skills'
 url:              http://amertkara.github.io
 
 author:
   name:           'Mert Kara'
-  url:            https://amertkara.githug.io
+  url:            https://amertkara.github.io
 
 paginate:         5
 
