@@ -32,20 +32,8 @@ sudo mkdir /var/jenkins
 
 The next step is to create Jenkins User/Group which is necessary for a proper server setup. You would like to keep the server instance contained within its own user/group as a security measure. Pay attention that `/var/jenkins` is set as jenkins user's home directory.
 
-{% highlight bash %}
-sudo /usr/sbin/dseditgroup -o create -r 'Jenkins CI Group' -i 600 _jenkins
-sudo dscl . -append /Groups/_jenkins passwd "*"
-sudo dscl . -create /Users/_jenkins
-sudo dscl . -append /Users/_jenkins RecordName jenkins
-sudo dscl . -append /Users/_jenkins RealName "Jenkins CI Server"
-sudo dscl . -append /Users/_jenkins uid 600
-sudo dscl . -append /Users/_jenkins gid 600
-sudo dscl . -append /Users/_jenkins shell /usr/bin/false
-sudo dscl . -append /Users/_jenkins home /var/jenkins
-sudo dscl . -append /Users/_jenkins passwd "*"
-sudo dscl . -append /Groups/_jenkins GroupMembership _jenkins
-sudo chown -R jenkins /var/jenkins
-{% endhighlight %}
+<script src="https://gist.github.com/amertkara/fc77e722cc12bc81d432.js?file=create_user.sh"></script>
+
 
 Now we have a Jenkins setup with a dedicated user, next step is to prepare an [OSX launch configuration file](https://developer.apple.com/library/mac/documentation/Darwin/Reference/ManPages/man5/launchd.plist.5.html). This file is used to launch Jenkins with proper configurations including environment variables. Among environment variables, `PATH` is the one I set because Homebrew installs binaries like MySQL, Python, etc. under `/usr/local/bin`. By default Jenkins will look under `/usr/bin` and I believe this can be set in Jenkins Configuration. Nevertheless I prefer to solve the problem from the root by configuring the launch config file.
 
@@ -57,33 +45,7 @@ sudo nano /Library/LaunchDaemons/org.jenkins-ci.plist
 
 and type (put your own Jenkins version in the path):
 
-{% highlight xml %}
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
-<plist version="1.0">
-<dict>
-<key>Label</key>
-<string>Jenkins</string>
-<key>ProgramArguments</key>
-<array>
-<string>/usr/bin/java</string>
-<string>-jar</string>
-<string>/usr/local/Cellar/jenkins/{VERSION}/libexec/jenkins.war</string>
-</array>
-<key>OnDemand</key>
-<false/>
-<key>RunAtLoad</key>
-<true/>
-<key>UserName</key>
-<string>jenkins</string>
-<key>EnvironmentVariables</key>
-<dict>
-    <key>PATH</key>
-    <string>/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin</string>
-</dict>
-</dict>
-</plist>
-{% endhighlight %}
+<script src="https://gist.github.com/amertkara/fc77e722cc12bc81d432.js?file=org.jenkins-ci.plist"></script>
 
 now you are ready to launch your Jenkins ("unload" can be used to stop it):
 
